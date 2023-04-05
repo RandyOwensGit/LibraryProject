@@ -17,6 +17,7 @@ export const SearchBooksPage = () => {
    const [totalAmountofBooks, setTotalAmountOfBooks] = useState(0);
    const [totalPages, setTotalPages] = useState(0);
 
+
    // hook - called at creation of component and when currentPage state changes
    // variables of state go inside array parameter
    useEffect(() => {
