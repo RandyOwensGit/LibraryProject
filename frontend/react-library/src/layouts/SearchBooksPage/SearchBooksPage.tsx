@@ -17,6 +17,10 @@ export const SearchBooksPage = () => {
    const [totalAmountofBooks, setTotalAmountOfBooks] = useState(0);
    const [totalPages, setTotalPages] = useState(0);
 
+   // States for handling search
+   const [search, setSearch] = useState('');
+   const [searchUrl, setSearchUrl] = useState('');
+
 
    // hook - called at creation of component and when currentPage state changes
    // variables of state go inside array parameter
@@ -29,7 +33,16 @@ export const SearchBooksPage = () => {
          const baseUrl: string = "http://localhost:8080/api/books";
 
          // get 9 book entities
-         const url: string = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+         let url: string = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+
+         if (searchUrl === '') {
+            url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+
+         } else {
+            url = baseUrl + searchUrl;
+         }
+
+
 
          // create a new variable on what is fetched
          const response = await fetch(url);
@@ -82,8 +95,9 @@ export const SearchBooksPage = () => {
       // scroll page to the top
       window.scrollTo(0, 0);
 
-      // Everytime currentPage changes - execute hook
-   }, [currentPage]);
+      // execute hook - everytime current page changes
+      // - everytime searchUrl changes
+   }, [currentPage, searchUrl]);
 
    // if still loading - notify user
    if (isLoading) {
@@ -100,6 +114,8 @@ export const SearchBooksPage = () => {
          </div>
       )
    }
+
+   
 
    // assign last and first book of array index from current page
    const indexOfLastBook: number = currentPage * booksPerPage;   
